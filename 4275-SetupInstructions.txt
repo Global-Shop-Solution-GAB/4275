@@ -1,0 +1,2 @@
+This project will run from the change work order sequence hook on the new purchase order screen (17185) and Outside P.O. Print (On-Line) Pre Ok Hook (30540)
+This will copy the documents attached to the work order sequence to the Part number if the work order sequence has an Op code of Outside.
