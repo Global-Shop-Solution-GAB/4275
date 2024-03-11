@@ -1,0 +1,226 @@
+Program.Sub.Preflight.Start
+Variable.Global.uWO.Declare(String)
+Variable.Global.uSuff.Declare(String)
+Variable.Global.uSeq.Declare(String)
+Variable.Global.uPart.Declare(String)
+Variable.Global.uRev.Declare(String)
+
+Program.Sub.Preflight.End
+
+Program.Sub.Main.Start
+F.Intrinsic.Control.SetErrorHandler("Main_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+
+'Coded by FEQ on 12/2016.
+'This is to be attached to hooks 17185 which is a Work Order sequence change for the Manual Purchase order screen,
+'and hook 30540 which is the pre-OK button hook oh the Outside P.O. Print (On-Line screen)
+'This will link the document for the outside OP Code to the part link of the P.O. Sequence if the W.O. Sequence is of Outside LMO 
+
+V.Local.sHook.Declare(String)
+V.Local.sHook.Set(V.Caller.Hook)
+
+F.ODBC.Connection!con.OpenConnection(V.Ambient.PDSN, V.Ambient.PUser, V.Ambient.PPass)
+
+F.Intrinsic.Control.SelectCase(V.Local.sHook)
+F.Intrinsic.Control.Case("17185")
+	'Set Global variables to be used
+	F.Intrinsic.Control.CallSub(manualpo)
+	'Check if W.O. Sequence is of O LMO
+	F.Intrinsic.Control.CallSub(opcodecheck)
+F.Intrinsic.Control.Case("30540")
+	'Set Global Variables to be used
+	F.Intrinsic.Control.CallSub(outsidepo)
+	'Check if W.O. Sequence is of O LMO
+	F.Intrinsic.Control.CallSub(opcodecheck)
+F.Intrinsic.Control.CaseElse
+	F.Intrinsic.String.Build("Script GCG_4275_OSOpLink mishooked. Does not belong in hook {0}.", V.Local.sHook, V.Local.sHook)
+	F.Intrinsic.UI.Msgbox(V.Local.sHook, "Hook Error")
+	F.Intrinsic.Control.CallSub(unload)
+F.Intrinsic.Control.EndSelect
+
+
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("Main_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: GCG_4275_OSOpLink.g2c",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+Function.Intrinsic.Control.EndIf
+
+
+Program.Sub.Main.End
+
+Program.Sub.ManualPO.Start
+F.Intrinsic.Control.SetErrorHandler("ManualPO_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+
+
+
+V.Global.uWO.Set(V.Passed.000029)
+V.Global.uSuff.Set(V.Passed.000030)
+V.Global.uSeq.Set(V.Passed.000032)
+V.Global.uPart.Set(V.Passed.000008)
+V.Global.uRev.Set(V.Passed.000009)
+
+
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("ManualPO_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: GCG_4275_OSOpLink.g2c",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+Function.Intrinsic.Control.EndIf
+
+
+Program.Sub.ManualPO.End
+
+Program.Sub.OutsidePO.Start
+F.Intrinsic.Control.SetErrorHandler("OutsidePO_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+
+
+
+V.Global.uWO.Set(V.Passed.000001)
+V.Global.uSuff.Set(V.Passed.000082)
+V.Global.uSeq.Set(V.Passed.000002)
+F.Intrinsic.String.RPad(V.Passed.000004, " ", 20, V.Global.uPart)
+F.Intrinsic.String.Right(V.Global.uPart, 3, V.Global.uRev)
+F.Intrinsic.String.Left(V.Global.uPart, 17, V.Global.uPart)
+
+
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("OutsidePO_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: GCG_4275_OSOpLink.g2c",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+Function.Intrinsic.Control.EndIf
+
+
+Program.Sub.OutsidePO.End
+
+Program.Sub.Unload.Start
+
+F.ODBC.Connection!con.Close
+F.Intrinsic.Control.End
+
+Program.Sub.Unload.End
+
+Program.Sub.OPCodeCheck.Start
+F.Intrinsic.Control.SetErrorHandler("OPCodeCheck_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+
+
+
+V.Local.sSql.Declare(String)
+V.Local.sRet.Declare(String)
+
+'We check to see if the sequence in the work order is of Outside Type
+F.Intrinsic.String.Build("Select PART from V_JOB_OPERATIONS where JOB = '{0}' and SUFFIX = '{1}' and SEQ = '{2}' and LMO = 'O' ", V.Global.uWO, V.Global.uSuff, v.Global.uSeq, V.Local.sSql)
+F.ODBC.Connection!con.OpenLocalRecordsetRO("rst", V.Local.sSql)
+F.Intrinsic.Control.If(V.ODBC.con!rst.EOF, =, True)
+	F.Intrinsic.Control.ExitSub
+F.Intrinsic.Control.EndIf
+
+V.Global.uPart.Set(V.ODBC.con!rst.FieldValTrim!PART)
+F.ODBC.con!rst.Close
+
+F.Intrinsic.String.Build("Select LMO from V_OP_CODES where MACHINE = '{0}' and LMO = 'O'", V.Global.uPart, V.Local.sSql)
+F.ODBC.Connection!con.OpenLocalRecordsetRO("rst", V.Local.sSql)
+F.Intrinsic.Control.If(V.ODBC.con!rst.EOF, =, True)
+	F.Intrinsic.Control.ExitSub
+F.Intrinsic.Control.EndIf
+F.ODBC.con!rst.Close
+
+
+'We continue if both conditions are met
+F.Intrinsic.Control.CallSub(copydoc)
+
+
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("OPCodeCheck_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: GCG_4275_OSOpLink.g2c",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+Function.Intrinsic.Control.EndIf
+
+
+Program.Sub.OPCodeCheck.End
+
+Program.Sub.CopyDoc.Start
+F.Intrinsic.Control.SetErrorHandler("CopyDoc_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+
+
+V.Local.sSql.Declare(String)
+V.Local.sOpKey.Declare(String)
+V.Local.iOPID.Declare(Long)
+V.Local.sPartKey.Declare(String)
+V.Local.iPartID.Declare(Long)
+V.Local.sMachine.Declare(String)
+V.Local.sOperation.Declare(String)
+V.Local.sMessage.Declare(String)
+V.Local.bFlag.Declare(Boolean)
+
+'The key for the document link in the table for the OP is O+PART from the Job 
+F.Intrinsic.String.Build("Select PART, LMO from V_JOB_OPERATIONS where JOB = '{0}' and SUFFIX = '{1}' and SEQ = '{2}' and LMO = 'O' ", V.Global.uWO, V.Global.uSuff, v.Global.uSeq, V.Local.sSql)
+F.ODBC.Connection!con.OpenLocalRecordsetRO("rst", V.Local.sSql)
+F.Intrinsic.String.RPad(V.ODBC.con!rst.FieldValTrim!PART, " ", 26, V.Local.sMachine)
+F.Intrinsic.String.Build("{0}{1}", V.ODBC.con!rst.FieldValTrim!LMO, V.Local.sMachine, V.Local.sOpKey)
+F.ODBC.con!rst.Close
+
+F.Global.DocumentControl.CreateReference(V.Local.sOpKey, 39, V.Local.iOPID)
+
+F.Intrinsic.String.RPad(V.Global.uPart, " ",17, V.Global.uPart)
+F.Intrinsic.String.RPad(V.Global.uRev, " ", 3, V.Global.uRev)
+
+F.Intrinsic.String.Build("{0}{1}", V.Global.uPart, V.Global.uRev, V.Local.sPartKey)
+F.Global.DocumentControl.CreateReference(V.Local.sPartKey, 30, V.Local.iPartID)
+
+F.Global.DocumentControl.Copy(V.Local.iOPID, V.Local.iPartID, V.Local.bFlag)
+
+F.Intrinsic.Control.If(V.Local.bFlag, =, True)
+	F.Intrinsic.String.Build("Document link successfully copied to Part {0}.", V.Local.sPartKey, V.Local.sMessage)
+F.Intrinsic.Control.Else
+	F.Intrinsic.String.Build("Document link was unsuccesfull to Part {0}.", V.Local.sPartKey, V.Local.sMessage)
+F.Intrinsic.Control.EndIf
+
+'unsure if they want a notification when the process is complete
+'F.Intrinsic.UI.Msgbox(V.Local.sMessage) 
+
+F.Intrinsic.Control.CallSub(unload)
+
+
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("CopyDoc_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: GCG_4275_OSOpLink.g2c",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+Function.Intrinsic.Control.EndIf
+
+
+Program.Sub.CopyDoc.End
+
+Program.Sub.Comments.Start
+${$0$}$$}$$}$11/29/2016 2:31:11 PM$}$False
+${$3$}$0$}$$}$0$}$-1$}$$}$12:00:00 AM$}$for hawkeye, per quote 6939
+either Print or Email the Documents associated with parts that are either Purchased to Job or Purchased to Inventory. This will happen on the Print or Email button on the purchase order header screen. If the email button is selected then the GAB script will look through each part on the purchase order to see if it Purchased to Job or Purchased to Inventory. If it then next it will get the link ID's for those parts, which will allow for the GAB Script to get the File and File path of the associated documents. Once the files have been located they will be attached to the email along with the PO. If the Print button is clicked then instead of emailing the files the files will be added to the Queue for Printing.
+
+Program.Sub.Comments.End
