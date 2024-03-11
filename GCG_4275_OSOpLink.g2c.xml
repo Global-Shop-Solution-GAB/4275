@@ -1,0 +1,496 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SyntaxEdit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Pages>
+    <DefaultPage>
+      <Header />
+      <Footer />
+    </DefaultPage>
+  </Pages>
+  <DisplayStrings />
+  <Selection>
+    <SelectionRect>
+      <Location>
+        <X>0</X>
+        <Y>220</Y>
+      </Location>
+      <Size>
+        <Width>24</Width>
+        <Height>5</Height>
+      </Size>
+      <X>0</X>
+      <Y>220</Y>
+      <Width>24</Width>
+      <Height>5</Height>
+    </SelectionRect>
+    <Options>UseColors OverwriteBlocks SelectLineOnTripleClick CopyLineWhenEmpty SelectWordOnCtrlClick</Options>
+  </Selection>
+  <Gutter>
+    <Options>PaintLineNumbers PaintBookMarks PaintLineModificators</Options>
+  </Gutter>
+  <Margin>
+    <Visible>false</Visible>
+  </Margin>
+  <LineStyles />
+  <LineSeparator />
+  <Printing>
+    <Footer />
+    <Header />
+  </Printing>
+  <WhiteSpace />
+  <TextSource>
+    <Position>
+      <X>0</X>
+      <Y>220</Y>
+    </Position>
+    <Lexer>
+      <Scheme>
+        <Author>Quantum Whale, LLC.</Author>
+        <Copyright>Copyright (c) 2004 - 2014 Quantum Whale LLC.</Copyright>
+        <FileType>gas</FileType>
+        <Version>1.5</Version>
+        <Styles>
+          <Style>
+            <Name>idents</Name>
+            <ForeColor>ControlText</ForeColor>
+          </Style>
+          <Style>
+            <Name>numbers</Name>
+            <ForeColor>ControlText</ForeColor>
+          </Style>
+          <Style>
+            <Name>reswords</Name>
+            <ForeColor>Blue</ForeColor>
+          </Style>
+          <Style>
+            <Name>comments</Name>
+            <ForeColor>Green</ForeColor>
+            <PlainText>true</PlainText>
+          </Style>
+          <Style>
+            <Name>xmlcomments</Name>
+            <ForeColor>Gray</ForeColor>
+          </Style>
+          <Style>
+            <Name>symbols</Name>
+            <ForeColor>WindowText</ForeColor>
+          </Style>
+          <Style>
+            <Name>whitespace</Name>
+            <ForeColor>WindowText</ForeColor>
+          </Style>
+          <Style>
+            <Name>strings</Name>
+            <ForeColor>Maroon</ForeColor>
+            <PlainText>true</PlainText>
+          </Style>
+          <Style>
+            <Name>directives</Name>
+            <ForeColor>Blue</ForeColor>
+          </Style>
+          <Style>
+            <Name>htmlparams</Name>
+            <ForeColor>Red</ForeColor>
+          </Style>
+          <Style>
+            <Name>syntax errors</Name>
+            <ForeColor>Red</ForeColor>
+          </Style>
+          <Style>
+            <Name>codes nippets</Name>
+            <ForeColor>Black</ForeColor>
+            <BackColor>255:180:228:180</BackColor>
+          </Style>
+          <Style>
+            <Name>GabReservedWords</Name>
+            <ForeColor>Blue</ForeColor>
+          </Style>
+          <Style>
+            <Name>GabTokenWithBrackets</Name>
+            <ForeColor>Gray</ForeColor>
+          </Style>
+          <Style>
+            <Name>GabFunctionIntrinsicDebug</Name>
+            <ForeColor>White</ForeColor>
+            <BackColor>Red</BackColor>
+            <FontStyle>Bold</FontStyle>
+            <PlainText>true</PlainText>
+          </Style>
+          <Style>
+            <Name>GabVariable</Name>
+            <ForeColor>Teal</ForeColor>
+          </Style>
+          <Style>
+            <Name>GabVariableSystemDefined</Name>
+            <ForeColor>Teal</ForeColor>
+            <FontStyle>Bold Italic</FontStyle>
+          </Style>
+          <Style>
+            <Name>GabGui</Name>
+            <ForeColor>OrangeRed</ForeColor>
+          </Style>
+          <Style>
+            <Name>GabProgramSubStartEnd</Name>
+            <ForeColor>Black</ForeColor>
+            <BackColor>LightGray</BackColor>
+            <FontStyle>Bold</FontStyle>
+            <PlainText>true</PlainText>
+          </Style>
+        </Styles>
+      </Scheme>
+    </Lexer>
+    <TextStrings>
+      <Lines>
+        <string>Program.Sub.Preflight.Start</string>
+        <string>Variable.Global.uWO.Declare(String)</string>
+        <string>Variable.Global.uSuff.Declare(String)</string>
+        <string>Variable.Global.uSeq.Declare(String)</string>
+        <string>Variable.Global.uPart.Declare(String)</string>
+        <string>Variable.Global.uRev.Declare(String)</string>
+        <string />
+        <string>Program.Sub.Preflight.End</string>
+        <string />
+        <string>Program.Sub.Main.Start</string>
+        <string>F.Intrinsic.Control.SetErrorHandler("Main_Err")</string>
+        <string>F.Intrinsic.Control.ClearErrors</string>
+        <string />
+        <string>V.Local.sError.Declare(String)</string>
+        <string />
+        <string>'Coded by FEQ on 12/2016.</string>
+        <string>'This is to be attached to hooks 17185 which is a Work Order sequence change for the Manual Purchase order screen,</string>
+        <string>'and hook 30540 which is the pre-OK button hook oh the Outside P.O. Print (On-Line screen)</string>
+        <string>'This will link the document for the outside OP Code to the part link of the P.O. Sequence if the W.O. Sequence is of Outside LMO </string>
+        <string />
+        <string>V.Local.sHook.Declare(String)</string>
+        <string>V.Local.sHook.Set(V.Caller.Hook)</string>
+        <string />
+        <string>F.ODBC.Connection!con.OpenConnection(V.Ambient.PDSN, V.Ambient.PUser, V.Ambient.PPass)</string>
+        <string />
+        <string>F.Intrinsic.Control.SelectCase(V.Local.sHook)</string>
+        <string>F.Intrinsic.Control.Case("17185")</string>
+        <string>	'Set Global variables to be used</string>
+        <string>	F.Intrinsic.Control.CallSub(manualpo)</string>
+        <string>	'Check if W.O. Sequence is of O LMO</string>
+        <string>	F.Intrinsic.Control.CallSub(opcodecheck)</string>
+        <string>F.Intrinsic.Control.Case("30540")</string>
+        <string>	'Set Global Variables to be used</string>
+        <string>	F.Intrinsic.Control.CallSub(outsidepo)</string>
+        <string>	'Check if W.O. Sequence is of O LMO</string>
+        <string>	F.Intrinsic.Control.CallSub(opcodecheck)</string>
+        <string>F.Intrinsic.Control.CaseElse</string>
+        <string>	F.Intrinsic.String.Build("Script GCG_4275_OSOpLink mishooked. Does not belong in hook {0}.", V.Local.sHook, V.Local.sHook)</string>
+        <string>	F.Intrinsic.UI.Msgbox(V.Local.sHook, "Hook Error")</string>
+        <string>	F.Intrinsic.Control.CallSub(unload)</string>
+        <string>F.Intrinsic.Control.EndSelect</string>
+        <string />
+        <string />
+        <string />
+        <string>F.Intrinsic.Control.ExitSub</string>
+        <string />
+        <string>F.Intrinsic.Control.Label("Main_Err")</string>
+        <string>F.Intrinsic.Control.If(V.Ambient.ErrorNumber,&lt;&gt;,0)</string>
+        <string>	Function.Intrinsic.String.Concat("Project: GCG_4275_OSOpLink.g2c",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)</string>
+        <string>	F.Intrinsic.UI.Msgbox(V.Local.sError)</string>
+        <string>Function.Intrinsic.Control.EndIf</string>
+        <string />
+        <string />
+        <string>Program.Sub.Main.End</string>
+        <string />
+        <string>Program.Sub.ManualPO.Start</string>
+        <string>F.Intrinsic.Control.SetErrorHandler("ManualPO_Err")</string>
+        <string>F.Intrinsic.Control.ClearErrors</string>
+        <string />
+        <string>V.Local.sError.Declare(String)</string>
+        <string />
+        <string />
+        <string />
+        <string>V.Global.uWO.Set(V.Passed.000029)</string>
+        <string>V.Global.uSuff.Set(V.Passed.000030)</string>
+        <string>V.Global.uSeq.Set(V.Passed.000032)</string>
+        <string>V.Global.uPart.Set(V.Passed.000008)</string>
+        <string>V.Global.uRev.Set(V.Passed.000009)</string>
+        <string />
+        <string />
+        <string />
+        <string>F.Intrinsic.Control.ExitSub</string>
+        <string />
+        <string>F.Intrinsic.Control.Label("ManualPO_Err")</string>
+        <string>F.Intrinsic.Control.If(V.Ambient.ErrorNumber,&lt;&gt;,0)</string>
+        <string>	Function.Intrinsic.String.Concat("Project: GCG_4275_OSOpLink.g2c",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)</string>
+        <string>	F.Intrinsic.UI.Msgbox(V.Local.sError)</string>
+        <string>Function.Intrinsic.Control.EndIf</string>
+        <string />
+        <string />
+        <string>Program.Sub.ManualPO.End</string>
+        <string />
+        <string>Program.Sub.OutsidePO.Start</string>
+        <string>F.Intrinsic.Control.SetErrorHandler("OutsidePO_Err")</string>
+        <string>F.Intrinsic.Control.ClearErrors</string>
+        <string />
+        <string>V.Local.sError.Declare(String)</string>
+        <string />
+        <string />
+        <string />
+        <string>V.Global.uWO.Set(V.Passed.000001)</string>
+        <string>V.Global.uSuff.Set(V.Passed.000082)</string>
+        <string>V.Global.uSeq.Set(V.Passed.000002)</string>
+        <string>F.Intrinsic.String.RPad(V.Passed.000004, " ", 20, V.Global.uPart)</string>
+        <string>F.Intrinsic.String.Right(V.Global.uPart, 3, V.Global.uRev)</string>
+        <string>F.Intrinsic.String.Left(V.Global.uPart, 17, V.Global.uPart)</string>
+        <string />
+        <string />
+        <string />
+        <string>F.Intrinsic.Control.ExitSub</string>
+        <string />
+        <string>F.Intrinsic.Control.Label("OutsidePO_Err")</string>
+        <string>F.Intrinsic.Control.If(V.Ambient.ErrorNumber,&lt;&gt;,0)</string>
+        <string>	Function.Intrinsic.String.Concat("Project: GCG_4275_OSOpLink.g2c",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)</string>
+        <string>	F.Intrinsic.UI.Msgbox(V.Local.sError)</string>
+        <string>Function.Intrinsic.Control.EndIf</string>
+        <string />
+        <string />
+        <string>Program.Sub.OutsidePO.End</string>
+        <string />
+        <string>Program.Sub.Unload.Start</string>
+        <string />
+        <string>F.ODBC.Connection!con.Close</string>
+        <string>F.Intrinsic.Control.End</string>
+        <string />
+        <string>Program.Sub.Unload.End</string>
+        <string />
+        <string>Program.Sub.OPCodeCheck.Start</string>
+        <string>F.Intrinsic.Control.SetErrorHandler("OPCodeCheck_Err")</string>
+        <string>F.Intrinsic.Control.ClearErrors</string>
+        <string />
+        <string>V.Local.sError.Declare(String)</string>
+        <string />
+        <string />
+        <string />
+        <string>V.Local.sSql.Declare(String)</string>
+        <string>V.Local.sRet.Declare(String)</string>
+        <string />
+        <string>'We check to see if the sequence in the work order is of Outside Type</string>
+        <string>F.Intrinsic.String.Build("Select PART from V_JOB_OPERATIONS where JOB = '{0}' and SUFFIX = '{1}' and SEQ = '{2}' and LMO = 'O' ", V.Global.uWO, V.Global.uSuff, v.Global.uSeq, V.Local.sSql)</string>
+        <string>F.ODBC.Connection!con.OpenLocalRecordsetRO("rst", V.Local.sSql)</string>
+        <string>F.Intrinsic.Control.If(V.ODBC.con!rst.EOF, =, True)</string>
+        <string>	F.Intrinsic.Control.ExitSub</string>
+        <string>F.Intrinsic.Control.EndIf</string>
+        <string />
+        <string>V.Global.uPart.Set(V.ODBC.con!rst.FieldValTrim!PART)</string>
+        <string>F.ODBC.con!rst.Close</string>
+        <string />
+        <string>F.Intrinsic.String.Build("Select LMO from V_OP_CODES where MACHINE = '{0}' and LMO = 'O'", V.Global.uPart, V.Local.sSql)</string>
+        <string>F.ODBC.Connection!con.OpenLocalRecordsetRO("rst", V.Local.sSql)</string>
+        <string>F.Intrinsic.Control.If(V.ODBC.con!rst.EOF, =, True)</string>
+        <string>	F.Intrinsic.Control.ExitSub</string>
+        <string>F.Intrinsic.Control.EndIf</string>
+        <string>F.ODBC.con!rst.Close</string>
+        <string />
+        <string />
+        <string>'We continue if both conditions are met</string>
+        <string>F.Intrinsic.Control.CallSub(copydoc)</string>
+        <string />
+        <string />
+        <string />
+        <string>F.Intrinsic.Control.ExitSub</string>
+        <string />
+        <string>F.Intrinsic.Control.Label("OPCodeCheck_Err")</string>
+        <string>F.Intrinsic.Control.If(V.Ambient.ErrorNumber,&lt;&gt;,0)</string>
+        <string>	Function.Intrinsic.String.Concat("Project: GCG_4275_OSOpLink.g2c",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)</string>
+        <string>	F.Intrinsic.UI.Msgbox(V.Local.sError)</string>
+        <string>Function.Intrinsic.Control.EndIf</string>
+        <string />
+        <string />
+        <string>Program.Sub.OPCodeCheck.End</string>
+        <string />
+        <string>Program.Sub.CopyDoc.Start</string>
+        <string>F.Intrinsic.Control.SetErrorHandler("CopyDoc_Err")</string>
+        <string>F.Intrinsic.Control.ClearErrors</string>
+        <string />
+        <string>V.Local.sError.Declare(String)</string>
+        <string />
+        <string />
+        <string>V.Local.sSql.Declare(String)</string>
+        <string>V.Local.sOpKey.Declare(String)</string>
+        <string>V.Local.iOPID.Declare(Long)</string>
+        <string>V.Local.sPartKey.Declare(String)</string>
+        <string>V.Local.iPartID.Declare(Long)</string>
+        <string>V.Local.sMachine.Declare(String)</string>
+        <string>V.Local.sOperation.Declare(String)</string>
+        <string>V.Local.sMessage.Declare(String)</string>
+        <string>V.Local.bFlag.Declare(Boolean)</string>
+        <string />
+        <string>'The key for the document link in the table for the OP is O+PART from the Job </string>
+        <string>F.Intrinsic.String.Build("Select PART, LMO from V_JOB_OPERATIONS where JOB = '{0}' and SUFFIX = '{1}' and SEQ = '{2}' and LMO = 'O' ", V.Global.uWO, V.Global.uSuff, v.Global.uSeq, V.Local.sSql)</string>
+        <string>F.ODBC.Connection!con.OpenLocalRecordsetRO("rst", V.Local.sSql)</string>
+        <string>F.Intrinsic.String.RPad(V.ODBC.con!rst.FieldValTrim!PART, " ", 26, V.Local.sMachine)</string>
+        <string>F.Intrinsic.String.Build("{0}{1}", V.ODBC.con!rst.FieldValTrim!LMO, V.Local.sMachine, V.Local.sOpKey)</string>
+        <string>F.ODBC.con!rst.Close</string>
+        <string />
+        <string>F.Global.DocumentControl.CreateReference(V.Local.sOpKey, 39, V.Local.iOPID)</string>
+        <string />
+        <string>F.Intrinsic.String.RPad(V.Global.uPart, " ",17, V.Global.uPart)</string>
+        <string>F.Intrinsic.String.RPad(V.Global.uRev, " ", 3, V.Global.uRev)</string>
+        <string />
+        <string>F.Intrinsic.String.Build("{0}{1}", V.Global.uPart, V.Global.uRev, V.Local.sPartKey)</string>
+        <string>F.Global.DocumentControl.CreateReference(V.Local.sPartKey, 30, V.Local.iPartID)</string>
+        <string />
+        <string>F.Global.DocumentControl.Copy(V.Local.iOPID, V.Local.iPartID, V.Local.bFlag)</string>
+        <string />
+        <string>F.Intrinsic.Control.If(V.Local.bFlag, =, True)</string>
+        <string>	F.Intrinsic.String.Build("Document link successfully copied to Part {0}.", V.Local.sPartKey, V.Local.sMessage)</string>
+        <string>F.Intrinsic.Control.Else</string>
+        <string>	F.Intrinsic.String.Build("Document link was unsuccesfull to Part {0}.", V.Local.sPartKey, V.Local.sMessage)</string>
+        <string>F.Intrinsic.Control.EndIf</string>
+        <string />
+        <string>'unsure if they want a notification when the process is complete</string>
+        <string>'F.Intrinsic.UI.Msgbox(V.Local.sMessage) </string>
+        <string />
+        <string>F.Intrinsic.Control.CallSub(unload)</string>
+        <string />
+        <string />
+        <string />
+        <string>F.Intrinsic.Control.ExitSub</string>
+        <string />
+        <string>F.Intrinsic.Control.Label("CopyDoc_Err")</string>
+        <string>F.Intrinsic.Control.If(V.Ambient.ErrorNumber,&lt;&gt;,0)</string>
+        <string>	Function.Intrinsic.String.Concat("Project: GCG_4275_OSOpLink.g2c",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)</string>
+        <string>	F.Intrinsic.UI.Msgbox(V.Local.sError)</string>
+        <string>Function.Intrinsic.Control.EndIf</string>
+        <string />
+        <string />
+        <string>Program.Sub.CopyDoc.End</string>
+        <string />
+        <string>Program.Sub.Comments.Start</string>
+        <string>${$0$}$$}$$}$11/29/2016 2:31:11 PM$}$False</string>
+        <string>${$3$}$0$}$$}$0$}$-1$}$$}$12:00:00 AM$}$for hawkeye, per quote 6939</string>
+        <string>either Print or Email the Documents associated with parts that are either Purchased to Job or Purchased to Inventory. This will happen on the Print or Email button on the purchase order header screen. If the email button is selected then the GAB script will look through each part on the purchase order to see if it Purchased to Job or Purchased to Inventory. If it then next it will get the link ID's for those parts, which will allow for the GAB Script to get the File and File path of the associated documents. Once the files have been located they will be attached to the email along with the PO. If the Print button is clicked then instead of emailing the files the files will be added to the Queue for Printing.</string>
+        <string />
+        <string>Program.Sub.Comments.End</string>
+      </Lines>
+    </TextStrings>
+  </TextSource>
+  <Scrolling>
+    <WindowOriginY>161</WindowOriginY>
+  </Scrolling>
+  <Outlining>
+    <AllowOutlining>true</AllowOutlining>
+    <ImageSize>8</ImageSize>
+    <Ranges>
+      <Range>
+        <StartPoint>
+          <X>0</X>
+          <Y>0</Y>
+        </StartPoint>
+        <EndPoint>
+          <X>2147483647</X>
+          <Y>7</Y>
+        </EndPoint>
+        <Text>Program.Sub.Preflight</Text>
+        <DisplayText>Program.Sub.Preflight</DisplayText>
+        <Visible>false</Visible>
+        <Level>0</Level>
+      </Range>
+      <Range>
+        <StartPoint>
+          <X>0</X>
+          <Y>9</Y>
+        </StartPoint>
+        <EndPoint>
+          <X>2147483647</X>
+          <Y>53</Y>
+        </EndPoint>
+        <Text>Program.Sub.Main</Text>
+        <DisplayText>Program.Sub.Main</DisplayText>
+        <Visible>true</Visible>
+        <Level>0</Level>
+      </Range>
+      <Range>
+        <StartPoint>
+          <X>0</X>
+          <Y>55</Y>
+        </StartPoint>
+        <EndPoint>
+          <X>2147483647</X>
+          <Y>80</Y>
+        </EndPoint>
+        <Text>Program.Sub.ManualPO</Text>
+        <DisplayText>Program.Sub.ManualPO</DisplayText>
+        <Visible>true</Visible>
+        <Level>0</Level>
+      </Range>
+      <Range>
+        <StartPoint>
+          <X>0</X>
+          <Y>82</Y>
+        </StartPoint>
+        <EndPoint>
+          <X>2147483647</X>
+          <Y>108</Y>
+        </EndPoint>
+        <Text>Program.Sub.OutsidePO</Text>
+        <DisplayText>Program.Sub.OutsidePO</DisplayText>
+        <Visible>true</Visible>
+        <Level>0</Level>
+      </Range>
+      <Range>
+        <StartPoint>
+          <X>0</X>
+          <Y>110</Y>
+        </StartPoint>
+        <EndPoint>
+          <X>2147483647</X>
+          <Y>115</Y>
+        </EndPoint>
+        <Text>Program.Sub.Unload</Text>
+        <DisplayText>Program.Sub.Unload</DisplayText>
+        <Visible>true</Visible>
+        <Level>0</Level>
+      </Range>
+      <Range>
+        <StartPoint>
+          <X>0</X>
+          <Y>117</Y>
+        </StartPoint>
+        <EndPoint>
+          <X>2147483647</X>
+          <Y>160</Y>
+        </EndPoint>
+        <Text>Program.Sub.OPCodeCheck</Text>
+        <DisplayText>Program.Sub.OPCodeCheck</DisplayText>
+        <Visible>true</Visible>
+        <Level>0</Level>
+      </Range>
+      <Range>
+        <StartPoint>
+          <X>0</X>
+          <Y>162</Y>
+        </StartPoint>
+        <EndPoint>
+          <X>2147483647</X>
+          <Y>218</Y>
+        </EndPoint>
+        <Text>Program.Sub.CopyDoc</Text>
+        <DisplayText>Program.Sub.CopyDoc</DisplayText>
+        <Visible>true</Visible>
+        <Level>0</Level>
+      </Range>
+      <Range>
+        <StartPoint>
+          <X>0</X>
+          <Y>220</Y>
+        </StartPoint>
+        <EndPoint>
+          <X>2147483647</X>
+          <Y>225</Y>
+        </EndPoint>
+        <Text>Program.Sub.Comments</Text>
+        <DisplayText>Program.Sub.Comments</DisplayText>
+        <Visible>false</Visible>
+        <Level>0</Level>
+      </Range>
+    </Ranges>
+  </Outlining>
+  <HyperText />
+  <Spelling />
+  <Braces />
+</SyntaxEdit>
